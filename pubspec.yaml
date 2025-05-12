@@ -1,0 +1,83 @@
+name: barista_helper
+description: "A new Flutter project."
+publish_to: 'none'
+version: 0.1.0
+
+environment:
+  sdk: ^3.7.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_bloc: ^9.1.1
+  bloc: ^9.0.0
+  flutter_svg: ^2.0.7
+  json_annotation: ^4.9.0
+  dio: ^5.8.0+1
+  shared_preferences: ^2.2.2
+  flutter_secure_storage: ^9.2.4
+  equatable: ^2.0.7
+  jwt_decoder: ^2.0.1
+  get_it: ^8.0.3
+  markdown_widget: ^2.3.2 # Замена для flutter_markdown
+  image_picker: ^1.1.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+  json_serializable: ^6.9.4
+  build_runner: ^2.4.15
+
+flutter:
+  uses-material-design: true
+  fonts:
+  - family: Nunito
+    fonts:
+      - asset: lib/assets/fonts/Nunito-ExtraLight.ttf
+      - asset: lib/assets/fonts/Nunito-Light.ttf
+      - asset: lib/assets/fonts/Nunito-Medium.ttf
+      - asset: lib/assets/fonts/Nunito-Regular.ttf
+      - asset: lib/assets/fonts/Nunito-SemiBold.ttf
+      - asset: lib/assets/fonts/Nunito-Bold.ttf
+      - asset: lib/assets/fonts/Nunito-ExtraBold.ttf
+        weight: 700
+  assets:
+    - lib/assets/icons/methods/aeropress_light.svg
+    - lib/assets/icons/methods/frenchpress_light.svg
+    - lib/assets/icons/methods/pourover_light.svg
+    - lib/assets/icons/methods/mokapot_light.svg
+    - lib/assets/icons/methods/espresso_light.svg
+    - lib/assets/icons/methods/favorites_light.svg
+    - lib/assets/icons/methods/myrecipes_light.svg
+    - lib/assets/icons/methods/dzhezva_light.svg
+    - lib/assets/icons/methods/custom_light.svg
+
+    - lib/assets/icons/methods/aeropress_dark.svg
+    - lib/assets/icons/methods/frenchpress_dark.svg
+    - lib/assets/icons/methods/pourover_dark.svg
+    - lib/assets/icons/methods/mokapot_dark.svg
+    - lib/assets/icons/methods/espresso_dark.svg
+    - lib/assets/icons/methods/favorites_dark.svg
+    - lib/assets/icons/methods/myrecipes_dark.svg
+    - lib/assets/icons/methods/dzhezva_dark.svg
+    - lib/assets/icons/methods/custom_dark.svg
+
+    - lib/assets/icons/steps/heat.svg
+    - lib/assets/icons/steps/grind.svg
+    - lib/assets/icons/steps/filter.svg
+    - lib/assets/icons/steps/scale.svg
+    - lib/assets/icons/steps/distribute.svg
+    - lib/assets/icons/steps/tamp.svg
+    - lib/assets/icons/steps/bloom.svg
+    - lib/assets/icons/steps/brew.svg
+    - lib/assets/icons/steps/pour.svg
+    - lib/assets/icons/steps/stir.svg
+    - lib/assets/icons/steps/press.svg
+    - lib/assets/icons/steps/wait.svg
+    - lib/assets/icons/steps/remove.svg
+    - lib/assets/icons/steps/transfer.svg
+    - lib/assets/icons/steps/dilute.svg
+    - lib/assets/icons/steps/decorate.svg
+    - lib/assets/icons/steps/serve.svg
+    - lib/assets/icons/steps/custom.svg

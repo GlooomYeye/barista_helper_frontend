@@ -1,0 +1,16 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "name": "Flutter Edge (Port 5050)",
+        "request": "launch",
+        "type": "dart",
+        "deviceId": "edge",
+        "args": [
+          "--web-port=5050",
+          "--web-browser-flag=--disable-web-security",
+          "--web-browser-flag=--user-data-dir=C:/temp/edge-no-cors"
+        ]
+      }
+    ]
+  }

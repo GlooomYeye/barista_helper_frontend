@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" version="1.1" style="shape-rendering:geometricPrecision;text-rendering:geometricPrecision;image-rendering:optimizeQuality;" viewBox="0 0 984 1026.25" fill-rule="evenodd" clip-rule="evenodd">
+  <defs>
+    <style type="text/css">
+      .fil0 {fill:black;fill-rule:nonzero}
+    </style>
+  </defs>
+  <g transform="translate(100, 100)">
+    <path class="fil0" d="M484 261l-146 -177 -161 177 307 0zm45 55l-404 0 -55 61c-6,6 -5,14 0,20l138 169c6,7 14,7 21,2l339 -205 -39 -47zm115 35c11,17 9,38 -10,50l-370 224c-35,23 -80,14 -106,-16l-139 -170c-26,-30 -25,-77 2,-106l293 -321c14,-15 38,-17 51,0l279 339zm-14 133c42,-81 85,-79 127,-2 127,238 -253,239 -127,2zm80 56c-4,-13 -10,-24 -16,-35 -7,11 -13,22 -17,35 -32,76 65,75 33,0z"/>
+  </g>
+</svg>
