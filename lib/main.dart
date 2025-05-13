@@ -76,7 +76,7 @@ class MyApp extends StatelessWidget {
           final themeMode =
               state is ThemeChanged ? state.themeMode : ThemeMode.system;
           return MaterialApp(
-            title: 'Приготовление кофе',
+            title: 'Barista Helper',
             theme: AppTheme.lightTheme,
             darkTheme: AppTheme.darkTheme,
             themeMode: themeMode,

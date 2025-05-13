@@ -45,11 +45,11 @@ class _SignInScreenState extends State<SignInScreen> {
     }
 
     if (_passwordController.text.isEmpty ||
-        _passwordController.text.length < 4) {
+        _passwordController.text.length < 6) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
-            'Пароль должен быть не менее 4 символов',
+            'Пароль должен быть не менее 6 символов',
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
               color: Theme.of(context).colorScheme.onError,
             ),
@@ -232,7 +232,7 @@ class _SignInScreenState extends State<SignInScreen> {
           ),
           const SizedBox(height: 32),
           buildAuthField(
-            label: 'Email',
+            label: 'Почта',
             hintText: 'Введите email',
             keyboardType: TextInputType.emailAddress,
             controller: _emailController,

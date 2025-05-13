@@ -1,6 +1,6 @@
 {
-    "name": "barista_helper",
-    "short_name": "barista_helper",
+    "name": "Barista Helper",
+    "short_name": "Barista Helper",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

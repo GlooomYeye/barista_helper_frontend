@@ -19,8 +19,7 @@ dependencies:
   equatable: ^2.0.7
   jwt_decoder: ^2.0.1
   get_it: ^8.0.3
-  markdown_widget: ^2.3.2 # Замена для flutter_markdown
-  image_picker: ^1.1.2
+  markdown_widget: ^2.3.2 
 
 dev_dependencies:
   flutter_test:
@@ -28,6 +27,12 @@ dev_dependencies:
   flutter_lints: ^5.0.0
   json_serializable: ^6.9.4
   build_runner: ^2.4.15
+  flutter_launcher_icons: "^0.13.1"
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "lib/assets/icons/app_icon.png"
 
 flutter:
   uses-material-design: true
@@ -81,3 +86,5 @@ flutter:
     - lib/assets/icons/steps/decorate.svg
     - lib/assets/icons/steps/serve.svg
     - lib/assets/icons/steps/custom.svg
+
+    - lib/assets/icons/app_icon.png

@@ -1,3 +1,3 @@
 class AppConfig {
-  static const String baseUrl = 'http://gloomyai.ru/';
+  static const String baseUrl = 'http://gloomyai.ru';
 }

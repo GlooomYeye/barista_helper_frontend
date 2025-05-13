@@ -262,7 +262,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           ),
           const SizedBox(height: 24),
           buildAuthField(
-            label: 'Email',
+            label: 'Почта',
             hintText: 'Введите email',
             keyboardType: TextInputType.emailAddress,
             controller: _emailController,
