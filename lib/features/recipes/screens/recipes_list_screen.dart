@@ -72,7 +72,6 @@ class RecipeListScreenState extends State<RecipeListScreen> {
   }
 
   void _onSearchChanged() {
-    // Добавляем небольшую задержку перед отправкой запроса
     Future.delayed(const Duration(milliseconds: 500), () {
       _refreshList();
     });
@@ -206,7 +205,7 @@ class RecipeListScreenState extends State<RecipeListScreen> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 24),
+                const SizedBox(height: 6),
                 Row(
                   children: [
                     Expanded(
@@ -262,6 +261,7 @@ class RecipeListScreenState extends State<RecipeListScreen> {
                     ),
                   ],
                 ),
+                const SizedBox(height: 8), // Добавил отступ
               ],
             ),
             backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
@@ -440,28 +440,35 @@ class RecipeListScreenState extends State<RecipeListScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Row(
-                    children: [
-                      Text(
-                        recipe.title,
-                        style: Theme.of(context).textTheme.titleMedium
-                            ?.copyWith(fontWeight: FontWeight.bold),
-                      ),
-                      const SizedBox(width: 8),
-                      Icon(
-                        Icons.access_time,
-                        size: 16,
-                        color: Theme.of(context).hintColor,
-                      ),
-                      const SizedBox(width: 4),
-                      Text(
-                        recipe.formatTime(),
-                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  Expanded(
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            recipe.title,
+                            style: Theme.of(context).textTheme.titleMedium
+                                ?.copyWith(fontWeight: FontWeight.bold),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        Icon(
+                          Icons.access_time,
+                          size: 16,
                           color: Theme.of(context).hintColor,
                         ),
-                      ),
-                    ],
+                        const SizedBox(width: 4),
+                        Text(
+                          recipe.formatTime(),
+                          style: Theme.of(context).textTheme.bodySmall
+                              ?.copyWith(color: Theme.of(context).hintColor),
+                        ),
+                      ],
+                    ),
                   ),
+                  const SizedBox(
+                    width: 8,
+                  ), // Добавил отступ между названием и сложностью
                   Container(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 8,

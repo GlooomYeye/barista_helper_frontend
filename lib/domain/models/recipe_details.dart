@@ -14,7 +14,7 @@ class RecipeDetails {
   final String author;
   final int authorId;
   final String description;
-  final int coffeeAmount;
+  final double coffeeAmount;
   final GrindSizeType coffeeGrind;
   final int waterAmount;
   final int waterTemp;
@@ -53,7 +53,7 @@ class RecipeDetails {
     String? author,
     int? authorId,
     String? description,
-    int? coffeeAmount,
+    double? coffeeAmount,
     GrindSizeType? coffeeGrind,
     int? waterAmount,
     int? waterTemp,
@@ -136,17 +136,17 @@ class RecipeDetails {
   static GrindSizeType _parseGrind(String grind) {
     switch (grind.toUpperCase()) {
       case 'FINE':
-        return GrindSizeType.fine;
+        return GrindSizeType.FINE;
       case 'MEDIUMFINE':
-        return GrindSizeType.mediumFine;
+        return GrindSizeType.MEDIUMFINE;
       case 'MEDIUM':
-        return GrindSizeType.medium;
+        return GrindSizeType.MEDIUM;
       case 'MEDIUMCOARSE':
-        return GrindSizeType.mediumCoarse;
+        return GrindSizeType.MEDIUMCOARSE;
       case 'COARSE':
-        return GrindSizeType.coarse;
+        return GrindSizeType.COARSE;
       default:
-        return GrindSizeType.none;
+        return GrindSizeType.NONE;
     }
   }
 

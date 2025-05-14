@@ -138,6 +138,15 @@ class AppTheme {
         lightDivider,
         lightDropdownFill,
       ),
+      snackBarTheme: SnackBarThemeData(
+        contentTextStyle: _baseTextTheme.bodyMedium?.copyWith(
+          color: Colors.white,
+        ),
+        // По умолчанию, если backgroundColor не задан в SnackBar,
+        // он будет использовать colorScheme.surfaceVariant в Material 3.
+        // Если снекбары ошибок используют colorScheme.error для фона,
+        // то этот contentTextStyle применится к ним.
+      ),
     );
   }
 
@@ -200,6 +209,12 @@ class AppTheme {
         }),
       ),
       dropdownMenuTheme: _buildDropdownMenuTheme(darkDivider, darkDropdownFill),
+      snackBarTheme: SnackBarThemeData(
+        contentTextStyle: _baseTextTheme.bodyMedium?.copyWith(
+          color: Colors.white,
+        ),
+        // Аналогично светлой теме.
+      ),
     );
   }
 

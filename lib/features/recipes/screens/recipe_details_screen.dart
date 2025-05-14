@@ -140,6 +140,7 @@ class RecipeDetailsScreen extends StatelessWidget {
                       ),
                     ),
                   ),
+                  const SizedBox(width: 20),
                   Row(
                     children: [
                       Container(
@@ -171,9 +172,9 @@ class RecipeDetailsScreen extends StatelessWidget {
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
-                                content: Text(
+                                content: const Text(
                                   'Войдите, чтобы оценить рецепты',
-                                  style: Theme.of(context).textTheme.bodyMedium,
+                                  // style: Theme.of(context).textTheme.bodyMedium, // Удаляем эту строку
                                 ),
                                 backgroundColor: AppTheme.errorRed,
                                 duration: const Duration(seconds: 1),
@@ -302,26 +303,33 @@ class RecipeDetailsScreen extends StatelessWidget {
               SizedBox(
                 height: 130,
                 child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    _buildDetailCard(
-                      context,
-                      title: 'Кофе',
-                      mainValue: '${recipe.coffeeAmount} г',
-                      secondaryValue: recipe.coffeeGrind.title,
+                    Expanded(
+                      child: _buildDetailCard(
+                        context,
+                        title: 'Кофе',
+                        mainValue: '${recipe.coffeeAmount} г',
+                        secondaryValue: recipe.coffeeGrind.title,
+                      ),
                     ),
                     const SizedBox(width: 8),
-                    _buildDetailCard(
-                      context,
-                      title: 'Вода',
-                      mainValue: '${recipe.waterAmount} мл',
-                      secondaryValue: '${recipe.waterTemp}°C',
+                    Expanded(
+                      child: _buildDetailCard(
+                        context,
+                        title: 'Вода',
+                        mainValue: '${recipe.waterAmount} мл',
+                        secondaryValue: '${recipe.waterTemp}°C \n',
+                      ),
                     ),
                     const SizedBox(width: 8),
-                    _buildDetailCard(
-                      context,
-                      title: 'Пропорция',
-                      mainValue: '1 : ${recipe.ratio}',
-                      secondaryValue: ' ',
+                    Expanded(
+                      child: _buildDetailCard(
+                        context,
+                        title: 'Доля',
+                        mainValue: '1 : ${recipe.ratio}',
+                        secondaryValue: ' \n',
+                      ),
                     ),
                   ],
                 ),
@@ -397,44 +405,46 @@ class RecipeDetailsScreen extends StatelessWidget {
     required String mainValue,
     required String secondaryValue,
   }) {
-    return Expanded(
-      child: Container(
-        decoration: BoxDecoration(
-          gradient: AppTheme.activeGradient,
-          borderRadius: BorderRadius.circular(20),
-        ),
-        padding: const EdgeInsets.all(20),
-        child: Align(
-          alignment: Alignment.centerLeft,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                title,
-                style: Theme.of(
-                  context,
-                ).textTheme.bodyMedium?.copyWith(color: Colors.white),
+    return Container(
+      decoration: BoxDecoration(
+        gradient: AppTheme.activeGradient,
+        borderRadius: BorderRadius.circular(20),
+      ),
+      padding: const EdgeInsets.all(20),
+      child: Align(
+        alignment: Alignment.centerLeft,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              title,
+              style: Theme.of(
+                context,
+              ).textTheme.bodyMedium?.copyWith(color: Colors.white),
+              maxLines: 1, // Добавляем ограничение по строкам
+              overflow:
+                  TextOverflow
+                      .ellipsis, // Добавляем многоточие при переполнении
+            ),
+            const SizedBox(height: 6),
+            Text(
+              mainValue,
+              style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
               ),
+            ),
+            if (secondaryValue.isNotEmpty) ...[
               const SizedBox(height: 6),
               Text(
-                mainValue,
-                style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                ),
+                secondaryValue,
+                style: Theme.of(
+                  context,
+                ).textTheme.bodySmall?.copyWith(color: Colors.white70),
               ),
-              if (secondaryValue.isNotEmpty) ...[
-                const SizedBox(height: 6),
-                Text(
-                  secondaryValue,
-                  style: Theme.of(
-                    context,
-                  ).textTheme.bodySmall?.copyWith(color: Colors.white70),
-                ),
-              ],
             ],
-          ),
+          ],
         ),
       ),
     );
@@ -466,19 +476,13 @@ class RecipeDetailsScreen extends StatelessWidget {
               width: 40,
               height: 40,
               decoration: BoxDecoration(
-                color:
-                    isDark
-                        ? Colors.grey[800]
-                        : Colors
-                            .grey[200], // Разные оттенки серого для темной и светлой тем
+                color: isDark ? Colors.grey[800] : Colors.grey[200],
                 borderRadius: BorderRadius.circular(8),
               ),
               child: SvgPicture.asset(
                 step.type.iconPath,
                 colorFilter: ColorFilter.mode(
-                  isDark
-                      ? Colors.white
-                      : Colors.black, // Белый для темной, черный для светлой
+                  isDark ? Colors.white : Colors.black,
                   BlendMode.srcIn,
                 ),
               ),

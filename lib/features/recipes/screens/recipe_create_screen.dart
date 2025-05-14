@@ -45,7 +45,7 @@ class _CreateRecipeScreenState extends State<CreateRecipeScreen> {
   final _waterTempController = TextEditingController();
 
   BrewingMethod _selectedBrewMethod = BrewingMethod.espresso;
-  GrindSizeType _selectedGrindSize = GrindSizeType.medium;
+  GrindSizeType _selectedGrindSize = GrindSizeType.MEDIUM;
   String _difficulty = 'Легко';
   List<BrewingStep> _steps = [];
 
@@ -660,19 +660,25 @@ class _CreateRecipeScreenState extends State<CreateRecipeScreen> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            'Соотношение кофе к воде',
-            style: Theme.of(
-              context,
-            ).textTheme.bodySmall?.copyWith(color: Theme.of(context).hintColor),
+          Expanded(
+            child: Text(
+              'Соотношение кофе к воде',
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                color: Theme.of(context).hintColor,
+              ),
+            ),
           ),
-          Text(
-            ratio <= 0
-                ? 'Неверное соотношение'
-                : '1:${ratio.toStringAsFixed(1)}',
-            style: Theme.of(
-              context,
-            ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
+          const SizedBox(width: 8), // Добавим небольшой отступ между текстами
+          Expanded(
+            child: Text(
+              ratio <= 0
+                  ? 'Неверное соотношение'
+                  : '1:${ratio.toStringAsFixed(1)}',
+              style: Theme.of(
+                context,
+              ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
+              textAlign: TextAlign.end, // Выравнивание по правому краю
+            ),
           ),
         ],
       ),
@@ -1154,7 +1160,7 @@ class _CreateRecipeScreenState extends State<CreateRecipeScreen> {
       author: (GetIt.I<AuthBloc>().state as Authenticated).user.username,
       authorId: (GetIt.I<AuthBloc>().state as Authenticated).user.id,
       description: _descriptionController.text,
-      coffeeAmount: int.tryParse(_coffeeAmountController.text) ?? 0,
+      coffeeAmount: double.tryParse(_coffeeAmountController.text) ?? 0,
       coffeeGrind: _selectedGrindSize,
       waterAmount: int.tryParse(_waterAmountController.text) ?? 0,
       waterTemp: int.tryParse(_waterTempController.text) ?? 0,
@@ -1228,7 +1234,7 @@ class _BrewingStepDialogState extends State<_BrewingStepDialog> {
       text: widget.initialStep?.description ?? '',
     );
     _durationController = TextEditingController(
-      text: widget.initialStep?.duration.toString() ?? '30',
+      text: widget.initialStep?.duration.toString() ?? '',
     );
   }
 
@@ -1373,7 +1379,7 @@ class _BrewingStepDialogState extends State<_BrewingStepDialog> {
                   style: textTheme.bodyMedium,
                   decoration: _inputDecoration(
                     context,
-                    'Описание шага',
+                    '',
                     widget.isDark,
                   ).copyWith(counterText: ''),
                   validator: (value) {
@@ -1400,11 +1406,7 @@ class _BrewingStepDialogState extends State<_BrewingStepDialog> {
                   controller: _durationController,
                   keyboardType: TextInputType.number,
                   style: textTheme.bodyMedium,
-                  decoration: _inputDecoration(
-                    context,
-                    'Время в секундах',
-                    widget.isDark,
-                  ),
+                  decoration: _inputDecoration(context, '', widget.isDark),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Обязательно';

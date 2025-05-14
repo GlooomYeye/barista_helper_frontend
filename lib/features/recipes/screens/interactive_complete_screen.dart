@@ -95,22 +95,26 @@ class BrewCompleteScreen extends StatelessWidget {
               ),
               const SizedBox(height: 40),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                // mainAxisAlignment: MainAxisAlignment.spaceBetween, // Можно оставить или убрать, Expanded справится
                 children: [
-                  _buildStatTile(
-                    context,
-                    icon: Icons.access_time,
-                    label: 'Общее время',
-                    value: totalTime,
-                    width: MediaQuery.of(context).size.width * 0.43,
+                  Expanded(
+                    child: _buildStatTile(
+                      context,
+                      icon: Icons.access_time,
+                      label: 'Общее время',
+                      value: totalTime,
+                      // width: MediaQuery.of(context).size.width * 0.43, // Удаляем width
+                    ),
                   ),
                   const SizedBox(width: 8),
-                  _buildStatTile(
-                    context,
-                    icon: Icons.check,
-                    label: 'Шагов выполнено',
-                    value: '$stepsCompleted',
-                    width: MediaQuery.of(context).size.width * 0.43,
+                  Expanded(
+                    child: _buildStatTile(
+                      context,
+                      icon: Icons.check,
+                      label: 'Шагов выполнено',
+                      value: '$stepsCompleted',
+                      // width: MediaQuery.of(context).size.width * 0.43, // Удаляем width
+                    ),
                   ),
                 ],
               ),
@@ -177,45 +181,57 @@ class BrewCompleteScreen extends StatelessWidget {
     required IconData icon,
     required String label,
     required String value,
-    required double width,
+    // required double width, // Удаляем параметр width
   }) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
-    return SizedBox(
-      width: width,
-      child: Container(
-        padding: const EdgeInsets.all(16),
-        decoration: AppTheme.cardDecoration(color: Theme.of(context).cardColor),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              label,
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                color: Theme.of(context).hintColor,
+    // return SizedBox( // Удаляем внешний SizedBox
+    //   width: width,
+    //   child: Container(
+    return Container(
+      // Оставляем Container как корневой элемент для _buildStatTile
+      padding: const EdgeInsets.all(16),
+      decoration: AppTheme.cardDecoration(color: Theme.of(context).cardColor),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize:
+            MainAxisSize
+                .min, // Чтобы Column не пытался занять всю высоту Expanded
+        children: [
+          Text(
+            label,
+            style: Theme.of(
+              context,
+            ).textTheme.bodySmall?.copyWith(color: Theme.of(context).hintColor),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+          const SizedBox(height: 8),
+          Row(
+            children: [
+              Icon(
+                icon,
+                color: isDark ? Colors.white : AppTheme.primaryBlue,
+                size: 24,
               ),
-            ),
-            const SizedBox(height: 8),
-            Row(
-              children: [
-                Icon(
-                  icon,
-                  color: isDark ? Colors.white : AppTheme.primaryBlue,
-                  size: 24,
-                ),
-                const SizedBox(width: 8),
-                Text(
+              const SizedBox(width: 8),
+              Expanded(
+                // Оборачиваем Text со значением в Expanded
+                child: Text(
                   value,
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
                     fontWeight: FontWeight.bold,
                     color: isDark ? Colors.white : null,
                   ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
-              ],
-            ),
-          ],
-        ),
+              ),
+            ],
+          ),
+        ],
       ),
+      // ),
     );
   }
 

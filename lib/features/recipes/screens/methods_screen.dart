@@ -142,20 +142,27 @@ class _BrewingMethodCard extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Center(
+              SizedBox(
+                width: 100,
+                height: 100,
                 child: SvgPicture.asset(
                   method.getIconPath(isDark),
-                  width: 120,
-                  height: 120,
+                  fit: BoxFit.contain,
+                ),
+              ),
+
+              Flexible(
+                child: Text(
+                  method.title,
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.w500,
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
                 ),
               ),
               const SizedBox(height: 12),
-              Text(
-                method.title,
-                style: Theme.of(
-                  context,
-                ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w500),
-              ),
             ],
           ),
         ),
