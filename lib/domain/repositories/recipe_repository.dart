@@ -68,7 +68,7 @@ class RecipeRepository {
         );
       }
       try {
-        final response = await Dio().get<Map<String, dynamic>>(
+        final response = await dio.get<Map<String, dynamic>>(
           '$baseUrl/api/recipes',
           queryParameters: {
             'method': method,
@@ -116,7 +116,7 @@ class RecipeRepository {
       );
     } else {
       try {
-        final response = await Dio().get<Map<String, dynamic>>(
+        final response = await dio.get<Map<String, dynamic>>(
           '$baseUrl/api/recipes/$id',
         );
 

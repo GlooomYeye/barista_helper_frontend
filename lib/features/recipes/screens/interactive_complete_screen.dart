@@ -44,9 +44,10 @@ class BrewCompleteScreen extends StatelessWidget {
               SnackBar(
                 content: Text(
                   'Что-то пошло не так',
-                  style: Theme.of(context).textTheme.bodyMedium,
+                  style: const TextStyle(color: Colors.white),
                 ),
                 backgroundColor: AppTheme.errorRed,
+                duration: const Duration(seconds: 2),
               ),
             );
           } else if (state is RecipeDetailsLoaded && state.recipe.liked) {
@@ -54,9 +55,10 @@ class BrewCompleteScreen extends StatelessWidget {
               SnackBar(
                 content: Text(
                   'Рецепт добавлен в избранное!',
-                  style: Theme.of(context).textTheme.bodyMedium,
+                  style: const TextStyle(color: Colors.white),
                 ),
                 backgroundColor: AppTheme.primaryGreen,
+                duration: const Duration(seconds: 2),
               ),
             );
           }

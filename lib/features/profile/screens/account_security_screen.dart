@@ -42,21 +42,47 @@ class _PrivacyScreenState extends State<PrivacyScreen> {
         body: BlocConsumer<ProfileBloc, ProfileState>(
           listener: (context, state) {
             if (state is ProfileUpdateSuccess) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text('Пароль успешно обновлен'),
-                  backgroundColor: AppTheme.primaryGreen,
-                ),
-              );
+              ScaffoldMessenger.of(context)
+                ..hideCurrentSnackBar()
+                ..showSnackBar(
+                  SnackBar(
+                    content: Text(
+                      'Пароль успешно обновлен',
+                      style: const TextStyle(color: Colors.white),
+                    ),
+                    backgroundColor: AppTheme.primaryGreen,
+                  ),
+                );
               _clearPasswordFields();
             }
+            if (state is ProfileDeleteSuccess) {
+              ScaffoldMessenger.of(context)
+                ..hideCurrentSnackBar()
+                ..showSnackBar(
+                  SnackBar(
+                    content: Text(
+                      'Аккаунт успешно удален',
+                      style: const TextStyle(color: Colors.white),
+                    ),
+                    backgroundColor: AppTheme.primaryGreen,
+                  ),
+                );
+              Navigator.of(
+                context,
+              ).pushNamedAndRemoveUntil('/signin', (route) => false);
+            }
             if (state is ProfileError) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(state.message),
-                  backgroundColor: AppTheme.errorRed,
-                ),
-              );
+              ScaffoldMessenger.of(context)
+                ..hideCurrentSnackBar()
+                ..showSnackBar(
+                  SnackBar(
+                    content: Text(
+                      state.message,
+                      style: const TextStyle(color: Colors.white),
+                    ),
+                    backgroundColor: AppTheme.errorRed,
+                  ),
+                );
             }
           },
           builder: (context, state) {
@@ -89,12 +115,18 @@ class _PrivacyScreenState extends State<PrivacyScreen> {
 
   void _updatePassword(BuildContext context) {
     if (_newPasswordController.text != _confirmPasswordController.text) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Пароли не совпадают'),
-          backgroundColor: AppTheme.errorRed,
-        ),
-      );
+      ScaffoldMessenger.of(context)
+        ..hideCurrentSnackBar()
+        ..showSnackBar(
+          SnackBar(
+            content: Text(
+              'Пароли не совпадают',
+              style: const TextStyle(color: Colors.white),
+            ),
+            backgroundColor: AppTheme.errorRed,
+            duration: const Duration(seconds: 2),
+          ),
+        );
       return;
     }
 
@@ -142,8 +174,8 @@ class _PrivacyScreenState extends State<PrivacyScreen> {
               ),
               TextButton(
                 onPressed: () {
-                  Navigator.pop(context);
                   context.read<ProfileBloc>().add(DeleteProfileEvent());
+                  Navigator.pop(context);
                 },
                 child: Text(
                   'Удалить',

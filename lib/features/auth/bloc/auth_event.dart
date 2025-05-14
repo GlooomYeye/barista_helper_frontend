@@ -38,3 +38,13 @@ class LogoutEvent extends AuthEvent {}
 class CheckAuthEvent extends AuthEvent {}
 
 class RefreshTokenEvent extends AuthEvent {}
+
+class UpdateUserEvent extends AuthEvent {
+  final String username;
+  final String email;
+
+  const UpdateUserEvent({required this.username, required this.email});
+
+  @override
+  List<Object> get props => [username, email];
+}

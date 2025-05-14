@@ -174,7 +174,7 @@ class RecipeDetailsScreen extends StatelessWidget {
                               SnackBar(
                                 content: const Text(
                                   'Войдите, чтобы оценить рецепты',
-                                  // style: Theme.of(context).textTheme.bodyMedium, // Удаляем эту строку
+                                  style: TextStyle(color: Colors.white),
                                 ),
                                 backgroundColor: AppTheme.errorRed,
                                 duration: const Duration(seconds: 1),

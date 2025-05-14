@@ -37,11 +37,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
         SnackBar(
           content: Text(
             'Введите ваше имя',
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: Theme.of(context).colorScheme.onError,
-            ),
+            style: const TextStyle(color: Colors.white),
           ),
           backgroundColor: AppTheme.errorRed,
+          duration: const Duration(seconds: 2),
         ),
       );
       return;
@@ -52,11 +51,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
         SnackBar(
           content: Text(
             'Введите корректный email',
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: Theme.of(context).colorScheme.onError,
-            ),
+            style: const TextStyle(color: Colors.white),
           ),
           backgroundColor: AppTheme.errorRed,
+          duration: const Duration(seconds: 2),
         ),
       );
       return;
@@ -68,11 +66,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
         SnackBar(
           content: Text(
             'Пароль должен быть не менее 6 символов',
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: Theme.of(context).colorScheme.onError,
-            ),
+            style: const TextStyle(color: Colors.white),
           ),
           backgroundColor: AppTheme.errorRed,
+          duration: const Duration(seconds: 2),
         ),
       );
       return;
@@ -83,11 +80,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
         SnackBar(
           content: Text(
             'Пароли не совпадают',
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: Theme.of(context).colorScheme.onError,
-            ),
+            style: const TextStyle(color: Colors.white),
           ),
           backgroundColor: AppTheme.errorRed,
+          duration: const Duration(seconds: 2),
         ),
       );
       return;
@@ -234,11 +230,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
             SnackBar(
               content: Text(
                 state.message,
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: Theme.of(context).colorScheme.onError,
-                ),
+                style: const TextStyle(color: Colors.white),
               ),
               backgroundColor: AppTheme.errorRed,
+              duration: const Duration(seconds: 2),
             ),
           );
         }

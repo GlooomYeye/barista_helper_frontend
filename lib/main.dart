@@ -24,19 +24,29 @@ void main() async {
 
   final prefs = await SharedPreferences.getInstance();
 
-  GetIt.I.registerLazySingleton(() => Dio());
+  // Register dependencies
+  GetIt.I.registerLazySingleton(
+    () => Dio(
+      BaseOptions(
+        connectTimeout: const Duration(seconds: 5),
+        receiveTimeout: const Duration(seconds: 3),
+        sendTimeout: const Duration(seconds: 3),
+      ),
+    ),
+  );
   GetIt.I.registerLazySingleton(
     () => AuthRepository(secureStorage: FlutterSecureStorage()),
   );
   GetIt.I.registerLazySingleton(() => UserRepository());
-
-  GetIt.I.registerSingleton<AuthBloc>(AuthBloc(GetIt.I<AuthRepository>()));
-  GetIt.I.registerSingleton<ThemeBloc>(ThemeBloc(prefs));
-
   GetIt.I.registerLazySingleton(() => RecipeRepository());
   GetIt.I.registerLazySingleton(() => TermRepository());
   GetIt.I.registerLazySingleton(() => NoteRepository());
 
+  // Register blocs
+  GetIt.I.registerSingleton<AuthBloc>(
+    AuthBloc(GetIt.I<AuthRepository>(), GetIt.I<UserRepository>()),
+  );
+  GetIt.I.registerSingleton<ThemeBloc>(ThemeBloc(prefs));
   GetIt.I.registerSingleton<RecipeDetailsBloc>(
     RecipeDetailsBloc(GetIt.I<RecipeRepository>(), GetIt.I<UserRepository>()),
   );
@@ -53,7 +63,7 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   MyApp({super.key}) {
-    _authBloc;
+    _authBloc.add(CheckAuthEvent());
     _themeBloc.add(LoadThemeEvent());
   }
 

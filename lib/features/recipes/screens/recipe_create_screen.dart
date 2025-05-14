@@ -917,9 +917,7 @@ class _CreateRecipeScreenState extends State<CreateRecipeScreen> {
             SnackBar(
               content: Text(
                 message,
-                style: Theme.of(
-                  context,
-                ).textTheme.bodyMedium?.copyWith(color: Colors.white),
+                style: const TextStyle(color: Colors.white),
               ),
               backgroundColor: Colors.greenAccent[700],
               duration: const Duration(seconds: 2),
@@ -939,9 +937,7 @@ class _CreateRecipeScreenState extends State<CreateRecipeScreen> {
             SnackBar(
               content: Text(
                 state.message,
-                style: Theme.of(
-                  context,
-                ).textTheme.bodyMedium?.copyWith(color: Colors.white),
+                style: const TextStyle(color: Colors.white),
               ),
               backgroundColor: AppTheme.errorRed,
               duration: const Duration(seconds: 2),
@@ -987,8 +983,7 @@ class _CreateRecipeScreenState extends State<CreateRecipeScreen> {
                           SnackBar(
                             content: Text(
                               'Пожалуйста, войдите в систему для создания рецептов',
-                              style: Theme.of(context).textTheme.bodyMedium
-                                  ?.copyWith(color: Colors.white),
+                              style: const TextStyle(color: Colors.white),
                             ),
                             backgroundColor: AppTheme.errorRed,
                             duration: const Duration(seconds: 2),
@@ -1194,12 +1189,7 @@ class _CreateRecipeScreenState extends State<CreateRecipeScreen> {
   void _showError(String message) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text(
-          message,
-          style: Theme.of(
-            context,
-          ).textTheme.bodyMedium?.copyWith(color: Colors.white),
-        ),
+        content: Text(message, style: const TextStyle(color: Colors.white)),
         backgroundColor: AppTheme.errorRed,
         duration: const Duration(seconds: 1),
         behavior: SnackBarBehavior.floating,

@@ -34,11 +34,10 @@ class _SignInScreenState extends State<SignInScreen> {
         SnackBar(
           content: Text(
             'Введите корректный email',
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: Theme.of(context).colorScheme.onError,
-            ),
+            style: const TextStyle(color: Colors.white),
           ),
           backgroundColor: AppTheme.errorRed,
+          duration: const Duration(seconds: 2),
         ),
       );
       return;
@@ -50,11 +49,10 @@ class _SignInScreenState extends State<SignInScreen> {
         SnackBar(
           content: Text(
             'Пароль должен быть не менее 6 символов',
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: Theme.of(context).colorScheme.onError,
-            ),
+            style: const TextStyle(color: Colors.white),
           ),
           backgroundColor: AppTheme.errorRed,
+          duration: const Duration(seconds: 2),
         ),
       );
       return;
@@ -198,11 +196,10 @@ class _SignInScreenState extends State<SignInScreen> {
             SnackBar(
               content: Text(
                 snackBarMessage,
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: Theme.of(context).colorScheme.onError,
-                ),
+                style: const TextStyle(color: Colors.white),
               ),
               backgroundColor: AppTheme.errorRed,
+              duration: const Duration(seconds: 2),
             ),
           );
         }

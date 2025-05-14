@@ -10,7 +10,7 @@ class NoteRepository {
 
   Future<List<String>> getNotesList() async {
     try {
-      final response = await Dio().get('$baseUrl/api/notes');
+      final response = await dio.get('$baseUrl/api/notes');
       if (response.statusCode == 200) {
         return (response.data as List).map((item) => item.toString()).toList();
       } else {
@@ -23,7 +23,7 @@ class NoteRepository {
 
   Future<Note> getNote(String name) async {
     try {
-      final response = await Dio().get('$baseUrl/api/notes/$name');
+      final response = await dio.get('$baseUrl/api/notes/$name');
       if (response.statusCode == 200) {
         return Note.fromJson(response.data);
       } else {

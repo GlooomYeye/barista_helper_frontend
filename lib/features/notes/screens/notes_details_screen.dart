@@ -23,10 +23,7 @@ class NoteDetailsScreen extends StatelessWidget {
                 style: Theme.of(context).appBarTheme.titleTextStyle,
               );
             }
-            return Text(
-              'Note',
-              style: Theme.of(context).appBarTheme.titleTextStyle,
-            );
+            return const SizedBox.shrink();
           },
         ),
         backgroundColor: Theme.of(context).appBarTheme.backgroundColor,

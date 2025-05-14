@@ -124,7 +124,7 @@ class _BrewingMethodCard extends StatelessWidget {
               SnackBar(
                 content: Text(
                   'Войдите, чтобы просмотреть ${method == BrewingMethod.favorites ? 'избранные' : 'созданные'} рецепты',
-                  style: Theme.of(context).textTheme.bodyMedium,
+                  style: const TextStyle(color: Colors.white),
                 ),
                 backgroundColor: AppTheme.errorRed,
                 duration: const Duration(seconds: 1),

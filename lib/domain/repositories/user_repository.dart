@@ -2,7 +2,6 @@ import 'package:barista_helper/domain/models/recipe.dart';
 import 'package:barista_helper/domain/models/recipe_details.dart';
 import 'package:barista_helper/domain/models/user.dart';
 import 'package:barista_helper/domain/repositories/auth_repository.dart';
-import 'package:barista_helper/features/auth/bloc/auth_bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:barista_helper/core/config/app_config.dart';
@@ -10,7 +9,6 @@ import 'package:barista_helper/core/config/app_config.dart';
 class UserRepository {
   final Dio dio = GetIt.I<Dio>();
   final AuthRepository authRepository = GetIt.I<AuthRepository>();
-  final AuthBloc authBloc = GetIt.I<AuthBloc>();
   final String baseUrl = AppConfig.baseUrl;
 
   UserRepository();
@@ -63,7 +61,7 @@ class UserRepository {
     required int page,
     required int perPage,
   }) async {
-    final userId = (authBloc.state as Authenticated).user.id;
+    final userId = await _getCurrentUserId();
     return await makeAuthenticatedRequest(
       () async => dio.get(
         '$baseUrl/api/users/$userId/recipes',
@@ -80,7 +78,7 @@ class UserRepository {
     required int page,
     required int perPage,
   }) async {
-    final userId = (authBloc.state as Authenticated).user.id;
+    final userId = await _getCurrentUserId();
     return await makeAuthenticatedRequest(
       () async => dio.get(
         '$baseUrl/api/users/$userId/recipes',
@@ -94,7 +92,7 @@ class UserRepository {
   }
 
   Future<void> likeRecipe(int recipeId) async {
-    final userId = (authBloc.state as Authenticated).user.id;
+    final userId = await _getCurrentUserId();
     return await makeAuthenticatedRequest(
       () async => dio.post('$baseUrl/api/users/$userId/recipes/$recipeId/like'),
       (data) {},
@@ -102,7 +100,7 @@ class UserRepository {
   }
 
   Future<void> unlikeRecipe(int recipeId) async {
-    final userId = (authBloc.state as Authenticated).user.id;
+    final userId = await _getCurrentUserId();
     return await makeAuthenticatedRequest(
       () async =>
           dio.delete('$baseUrl/api/users/$userId/recipes/$recipeId/like'),
@@ -111,7 +109,7 @@ class UserRepository {
   }
 
   Future<void> saveRecipe(RecipeDetails recipe) async {
-    final userId = (authBloc.state as Authenticated).user.id;
+    final userId = await _getCurrentUserId();
     final recipeData = recipe.toJson();
     recipeData['authorId'] = userId;
     recipeData['id'] = null;
@@ -123,7 +121,7 @@ class UserRepository {
   }
 
   Future<void> updateRecipe(RecipeDetails recipe) async {
-    final userId = (authBloc.state as Authenticated).user.id;
+    final userId = await _getCurrentUserId();
     return await makeAuthenticatedRequest(
       () async => dio.put(
         '$baseUrl/api/users/$userId/recipes/${recipe.id}',
@@ -134,7 +132,7 @@ class UserRepository {
   }
 
   Future<void> deleteRecipe(int recipeId) async {
-    final userId = (authBloc.state as Authenticated).user.id;
+    final userId = await _getCurrentUserId();
     return await makeAuthenticatedRequest(
       () async => dio.delete('$baseUrl/api/users/$userId/recipes/$recipeId'),
       (data) {},
@@ -196,5 +194,10 @@ class UserRepository {
     }
 
     return Exception('Неизвестная ошибка. Попробуйте позже');
+  }
+
+  Future<int> _getCurrentUserId() async {
+    final user = await getCurrentUser();
+    return user.id;
   }
 }

@@ -9,7 +9,7 @@ class TermRepository {
   TermRepository();
 
   Future<List<Term>> getTermsList() async {
-    final response = await Dio().get('$baseUrl/api/terms');
+    final response = await dio.get('$baseUrl/api/terms');
     List<Term> terms =
         (response.data as List).map((item) => Term.fromJson(item)).toList();
     return terms;

@@ -54,6 +54,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       }
 
       emit(ProfileUpdateSuccess(updatedUser));
+      emit(ProfileLoaded(updatedUser));
     } catch (e) {
       if (state is ProfileLoaded) {
         emit(ProfileError(e.toString()));
@@ -68,9 +69,16 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     DeleteProfileEvent event,
     Emitter<ProfileState> emit,
   ) async {
+    if (state is! ProfileLoaded) {
+      emit(ProfileError('Cannot delete profile: profile not loaded'));
+      return;
+    }
+
+    final userId = (state as ProfileLoaded).user.id;
     emit(ProfileLoading());
     try {
-      await userRepository.deleteUser((state as ProfileLoaded).user.id);
+      await userRepository.deleteUser(userId);
+      GetIt.I<AuthBloc>().add(LogoutEvent());
       emit(ProfileDeleteSuccess());
     } catch (e) {
       emit(ProfileError(e.toString()));

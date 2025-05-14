@@ -44,18 +44,36 @@ class _AccountSettingsState extends State<AccountSettingsScreen> {
     return BlocListener<ProfileBloc, ProfileState>(
       listener: (context, state) {
         if (state is ProfileError) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(state.message),
-              backgroundColor: AppTheme.errorRed,
-            ),
-          );
+          ScaffoldMessenger.of(context)
+            ..hideCurrentSnackBar()
+            ..showSnackBar(
+              SnackBar(
+                content: Text(
+                  state.message,
+                  style: const TextStyle(color: Colors.white),
+                ),
+                backgroundColor: AppTheme.errorRed,
+                duration: const Duration(seconds: 2),
+              ),
+            );
         }
         if (state is ProfileUpdateSuccess) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text('Профиль успешно обновлен'),
+              content: Text(
+                'Профиль успешно обновлен',
+                style: const TextStyle(color: Colors.white),
+              ),
               backgroundColor: AppTheme.primaryGreen,
+              duration: const Duration(seconds: 2),
+              onVisible: () {
+                context.read<AuthBloc>().add(
+                  UpdateUserEvent(
+                    username: _nameController.text,
+                    email: _emailController.text,
+                  ),
+                );
+              },
             ),
           );
         }
