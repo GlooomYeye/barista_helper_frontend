@@ -57,23 +57,6 @@ class UserRepository {
     );
   }
 
-  Future<List<Recipe>> getUserCreatedRecipes({
-    required int page,
-    required int perPage,
-  }) async {
-    final userId = await _getCurrentUserId();
-    return await makeAuthenticatedRequest(
-      () async => dio.get(
-        '$baseUrl/api/users/$userId/recipes',
-        queryParameters: {'page': page, 'perPage': perPage},
-      ),
-      (data) =>
-          (data['content'] as List)
-              .map((json) => Recipe.fromJson(json))
-              .toList(),
-    );
-  }
-
   Future<List<Recipe>> getUserLikedRecipes({
     required int page,
     required int perPage,

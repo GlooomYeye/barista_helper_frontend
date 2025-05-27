@@ -29,7 +29,14 @@ class RecipeRepository {
         return await userRepository.makeAuthenticatedRequest(
           () async => dio.get(
             '$baseUrl/api/users/$userId/favorites',
-            queryParameters: {'page': page, 'perPage': perPage},
+            queryParameters: {
+              'page': page,
+              'perPage': perPage,
+              if (searchQuery != null && searchQuery.isNotEmpty)
+                'search': searchQuery,
+              'sortBy': sortBy,
+              'sortDir': sortDir,
+            },
           ),
           (data) =>
               (data['content'] as List)
@@ -37,9 +44,24 @@ class RecipeRepository {
                   .toList(),
         );
       } else if (method == 'CREATED') {
-        return await userRepository.getUserCreatedRecipes(
-          page: page,
-          perPage: perPage,
+        final authState = authbloc.state as Authenticated;
+        final userId = authState.user.id;
+        return await userRepository.makeAuthenticatedRequest(
+          () async => dio.get(
+            '$baseUrl/api/users/$userId/recipes',
+            queryParameters: {
+              'page': page,
+              'perPage': perPage,
+              if (searchQuery != null && searchQuery.isNotEmpty)
+                'search': searchQuery,
+              'sortBy': sortBy,
+              'sortDir': sortDir,
+            },
+          ),
+          (data) =>
+              (data['content'] as List)
+                  .map((json) => Recipe.fromJson(json as Map<String, dynamic>))
+                  .toList(),
         );
       } else {
         return await userRepository.makeAuthenticatedRequest(
