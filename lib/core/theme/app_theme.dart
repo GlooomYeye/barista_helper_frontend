@@ -17,6 +17,7 @@ class AppTheme {
       fontFamily: 'Nunito',
       fontSize: 96,
       fontWeight: FontWeight.w300,
+      overflow: TextOverflow.ellipsis,
     ),
     displayMedium: TextStyle(
       fontFamily: 'Nunito',
@@ -52,6 +53,7 @@ class AppTheme {
       fontFamily: 'Nunito',
       fontSize: 14,
       fontWeight: FontWeight.normal,
+      overflow: TextOverflow.clip,
     ),
     titleMedium: TextStyle(
       fontFamily: 'Nunito',
@@ -95,7 +97,7 @@ class AppTheme {
           color: Colors.black87,
         ),
       ),
-      cardTheme: CardTheme(
+      cardTheme: CardThemeData(
         elevation: 0,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         color: Colors.white,
@@ -142,10 +144,6 @@ class AppTheme {
         contentTextStyle: _baseTextTheme.bodyMedium?.copyWith(
           color: Colors.white,
         ),
-        // По умолчанию, если backgroundColor не задан в SnackBar,
-        // он будет использовать colorScheme.surfaceVariant в Material 3.
-        // Если снекбары ошибок используют colorScheme.error для фона,
-        // то этот contentTextStyle применится к ним.
       ),
     );
   }
@@ -156,7 +154,7 @@ class AppTheme {
 
     return baseTheme.copyWith(
       scaffoldBackgroundColor: const Color(0xFF121212),
-      primaryColor: primaryBlue,
+      primaryColor: primaryGreen,
       cardColor: const Color(0xFF242424),
       shadowColor: Colors.black.withAlpha((0.2 * 255).round()),
       dividerColor: darkDivider,
@@ -175,7 +173,7 @@ class AppTheme {
           color: Colors.white,
         ),
       ),
-      cardTheme: CardTheme(
+      cardTheme: CardThemeData(
         elevation: 0,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         color: const Color(0xFF242424),
@@ -197,13 +195,13 @@ class AppTheme {
       switchTheme: SwitchThemeData(
         thumbColor: WidgetStateProperty.resolveWith<Color>((states) {
           if (states.contains(WidgetState.selected)) {
-            return primaryBlue;
+            return primaryGreen;
           }
           return Colors.grey[500]!;
         }),
         trackColor: WidgetStateProperty.resolveWith<Color>((states) {
           if (states.contains(WidgetState.selected)) {
-            return primaryBlue.withAlpha((0.5 * 255).round());
+            return primaryGreen.withAlpha((0.5 * 255).round());
           }
           return Colors.grey[600]!;
         }),
@@ -213,12 +211,10 @@ class AppTheme {
         contentTextStyle: _baseTextTheme.bodyMedium?.copyWith(
           color: Colors.white,
         ),
-        // Аналогично светлой теме.
       ),
     );
   }
 
-  // Метод для создания темы DropdownMenu (остается без изменений)
   static DropdownMenuThemeData _buildDropdownMenuTheme(
     Color dividerColor,
     Color fillColor,
@@ -241,7 +237,7 @@ class AppTheme {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: primaryBlue, width: 1.5),
+          borderSide: const BorderSide(color: primaryGreen, width: 1.5),
         ),
       ),
       menuStyle: MenuStyle(
@@ -260,12 +256,26 @@ class AppTheme {
     );
   }
 
-  // Градиенты и вспомогательные методы (без изменений)
-  static const activeGradient = LinearGradient(
+  static const lightGradient = LinearGradient(
     colors: [primaryBlue, primaryGreen],
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
   );
+
+  static const darkGradient = LinearGradient(
+    colors: [primaryBlue, primaryGreen],
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+  );
+
+  static LinearGradient getActiveGradient(bool isDark) {
+    return isDark ? darkGradient : lightGradient;
+  }
+
+  static LinearGradient activeGradient(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    return getActiveGradient(isDark);
+  }
 
   static BoxDecoration cardDecoration({Color? color}) {
     return BoxDecoration(
@@ -281,13 +291,15 @@ class AppTheme {
     );
   }
 
-  static BoxDecoration gradientButtonDecoration() {
+  static BoxDecoration gradientButtonDecoration(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final color = isDark ? primaryGreen : primaryBlue;
     return BoxDecoration(
-      gradient: activeGradient,
+      gradient: getActiveGradient(isDark),
       borderRadius: BorderRadius.circular(8),
       boxShadow: [
         BoxShadow(
-          color: primaryBlue.withAlpha((0.3 * 255).round()),
+          color: color.withAlpha((0.3 * 255).round()),
           blurRadius: 8,
           offset: const Offset(0, 4),
         ),
@@ -295,9 +307,10 @@ class AppTheme {
     );
   }
 
-  static BoxDecoration iconDecoration() {
+  static BoxDecoration iconDecoration(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return BoxDecoration(
-      gradient: activeGradient,
+      gradient: getActiveGradient(isDark),
       borderRadius: BorderRadius.circular(12),
     );
   }

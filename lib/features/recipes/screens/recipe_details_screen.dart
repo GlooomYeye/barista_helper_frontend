@@ -47,29 +47,21 @@ class RecipeDetailsScreen extends StatelessWidget {
           body: BlocBuilder<RecipeDetailsBloc, RecipeDetailsState>(
             builder: (context, state) {
               if (state is RecipeDetailsLoading) {
+                final isDark = Theme.of(context).brightness == Brightness.dark;
                 return Center(
-                  child: CircularProgressIndicator(color: AppTheme.primaryBlue),
+                  child: CircularProgressIndicator(
+                    color:
+                        isDark ? AppTheme.primaryGreen : AppTheme.primaryBlue,
+                  ),
                 );
               } else if (state is RecipeDetailsError) {
                 return Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Column(
-                        children: [
-                          Icon(
-                            Icons.error_outline,
-                            color: AppTheme.errorRed,
-                            size: 48,
-                          ),
-                          const SizedBox(height: 16),
-                          Text(
-                            state.message,
-                            style: Theme.of(context).textTheme.bodyLarge
-                                ?.copyWith(color: AppTheme.errorRed),
-                            textAlign: TextAlign.center,
-                          ),
-                        ],
+                      Text(
+                        'Что-то пошло не так',
+                        style: Theme.of(context).textTheme.bodyLarge,
                       ),
                       const SizedBox(height: 20),
                       TextButton(
@@ -79,8 +71,14 @@ class RecipeDetailsScreen extends StatelessWidget {
                             ).add(LoadRecipeDetails(recipeId)),
                         child: Text(
                           'Обновить',
-                          style: Theme.of(context).textTheme.bodyLarge
-                              ?.copyWith(color: AppTheme.primaryBlue),
+                          style: Theme.of(
+                            context,
+                          ).textTheme.bodyLarge?.copyWith(
+                            color:
+                                Theme.of(context).brightness == Brightness.dark
+                                    ? AppTheme.primaryGreen
+                                    : AppTheme.primaryBlue,
+                          ),
                         ),
                       ),
                     ],
@@ -122,7 +120,7 @@ class RecipeDetailsScreen extends StatelessWidget {
                   Flexible(
                     child: Container(
                       decoration: BoxDecoration(
-                        gradient: AppTheme.activeGradient,
+                        gradient: AppTheme.activeGradient(context),
                         borderRadius: BorderRadius.circular(20),
                       ),
                       padding: const EdgeInsets.symmetric(
@@ -171,13 +169,13 @@ class RecipeDetailsScreen extends StatelessWidget {
                             bloc.add(ToggleLike());
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: const Text(
+                              const SnackBar(
+                                content: Text(
                                   'Войдите, чтобы оценить рецепты',
                                   style: TextStyle(color: Colors.white),
                                 ),
                                 backgroundColor: AppTheme.errorRed,
-                                duration: const Duration(seconds: 1),
+                                duration: Duration(seconds: 1),
                               ),
                             );
                           }
@@ -361,7 +359,7 @@ class RecipeDetailsScreen extends StatelessWidget {
           left: 16,
           right: 16,
           child: Container(
-            decoration: AppTheme.gradientButtonDecoration(),
+            decoration: AppTheme.gradientButtonDecoration(context),
             child: ElevatedButton(
               onPressed: () {
                 Navigator.of(
@@ -381,7 +379,10 @@ class RecipeDetailsScreen extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(Icons.keyboard_double_arrow_down, color: Colors.white),
+                  const Icon(
+                    Icons.keyboard_double_arrow_down,
+                    color: Colors.white,
+                  ),
                   const SizedBox(width: 8),
                   Text(
                     'Перейти к инструкции',
@@ -407,7 +408,7 @@ class RecipeDetailsScreen extends StatelessWidget {
   }) {
     return Container(
       decoration: BoxDecoration(
-        gradient: AppTheme.activeGradient,
+        gradient: AppTheme.activeGradient(context),
         borderRadius: BorderRadius.circular(20),
       ),
       padding: const EdgeInsets.all(20),
@@ -522,7 +523,8 @@ class RecipeDetailsScreen extends StatelessWidget {
                 Text(
                   step.formattedDuration,
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color: isDark ? Colors.white70 : AppTheme.primaryBlue,
+                    color:
+                        isDark ? AppTheme.primaryGreen : AppTheme.primaryBlue,
                   ),
                 ),
               ],

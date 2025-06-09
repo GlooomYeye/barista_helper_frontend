@@ -753,8 +753,12 @@ class _CreateRecipeScreenState extends State<CreateRecipeScreen> {
         child: InkWell(
           onTap: () => _showStepDialog(initialStep: step, index: index),
           borderRadius: BorderRadius.circular(12),
-          splashColor: AppTheme.primaryBlue.withAlpha((0.1 * 255).round()),
-          highlightColor: AppTheme.primaryBlue.withAlpha((0.05 * 255).round()),
+          splashColor: (isDark ? AppTheme.primaryGreen : AppTheme.primaryBlue)
+              .withAlpha((0.1 * 255).round()),
+          highlightColor: (isDark
+                  ? AppTheme.primaryGreen
+                  : AppTheme.primaryBlue)
+              .withAlpha((0.05 * 255).round()),
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: Column(
@@ -851,7 +855,7 @@ class _CreateRecipeScreenState extends State<CreateRecipeScreen> {
 
   Widget _buildAddStepButton() {
     return Container(
-      decoration: AppTheme.gradientButtonDecoration(),
+      decoration: AppTheme.gradientButtonDecoration(context),
       child: ElevatedButton.icon(
         onPressed: () => _showStepDialog(),
         style: ElevatedButton.styleFrom(
@@ -956,7 +960,7 @@ class _CreateRecipeScreenState extends State<CreateRecipeScreen> {
           left: 16,
           right: 16,
           child: Container(
-            decoration: AppTheme.gradientButtonDecoration(),
+            decoration: AppTheme.gradientButtonDecoration(context),
             child: Stack(
               alignment: Alignment.center,
               children: [
@@ -981,9 +985,9 @@ class _CreateRecipeScreenState extends State<CreateRecipeScreen> {
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
-                            content: Text(
+                            content: const Text(
                               'Пожалуйста, войдите в систему для создания рецептов',
-                              style: const TextStyle(color: Colors.white),
+                              style: TextStyle(color: Colors.white),
                             ),
                             backgroundColor: AppTheme.errorRed,
                             duration: const Duration(seconds: 2),
@@ -1425,7 +1429,7 @@ class _BrewingStepDialogState extends State<_BrewingStepDialog> {
           child: const Text('Отмена'),
         ),
         Container(
-          decoration: AppTheme.gradientButtonDecoration(),
+          decoration: AppTheme.gradientButtonDecoration(context),
           child: ElevatedButton.icon(
             icon: const Icon(
               Icons.save_alt_outlined,

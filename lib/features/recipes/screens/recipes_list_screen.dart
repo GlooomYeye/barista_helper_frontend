@@ -261,7 +261,7 @@ class RecipeListScreenState extends State<RecipeListScreen> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 8), // Добавил отступ
+                const SizedBox(height: 8),
               ],
             ),
             backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
@@ -272,8 +272,12 @@ class RecipeListScreenState extends State<RecipeListScreen> {
           body: BlocBuilder<RecipeListBloc, RecipeListState>(
             builder: (context, state) {
               if (state is RecipeListInitial) {
+                final isDark = Theme.of(context).brightness == Brightness.dark;
                 return Center(
-                  child: CircularProgressIndicator(color: AppTheme.primaryBlue),
+                  child: CircularProgressIndicator(
+                    color:
+                        isDark ? AppTheme.primaryGreen : AppTheme.primaryBlue,
+                  ),
                 );
               }
 
@@ -291,8 +295,14 @@ class RecipeListScreenState extends State<RecipeListScreen> {
                         onPressed: () => _refreshList(),
                         child: Text(
                           'Попробовать снова',
-                          style: Theme.of(context).textTheme.bodyLarge
-                              ?.copyWith(color: AppTheme.primaryBlue),
+                          style: Theme.of(
+                            context,
+                          ).textTheme.bodyLarge?.copyWith(
+                            color:
+                                Theme.of(context).brightness == Brightness.dark
+                                    ? AppTheme.primaryGreen
+                                    : AppTheme.primaryBlue,
+                          ),
                         ),
                       ),
                     ],
@@ -319,7 +329,10 @@ class RecipeListScreenState extends State<RecipeListScreen> {
                 return Stack(
                   children: [
                     RefreshIndicator(
-                      color: AppTheme.primaryBlue,
+                      color:
+                          Theme.of(context).brightness == Brightness.dark
+                              ? AppTheme.primaryGreen
+                              : AppTheme.primaryBlue,
                       onRefresh: () async {
                         _refreshList();
                         // Ждем пока состояние не обновится
@@ -343,11 +356,16 @@ class RecipeListScreenState extends State<RecipeListScreen> {
                             hasReachedMax ? recipes.length : recipes.length + 1,
                         itemBuilder: (context, index) {
                           if (index >= recipes.length) {
+                            final isDark =
+                                Theme.of(context).brightness == Brightness.dark;
                             return Padding(
                               padding: const EdgeInsets.symmetric(vertical: 16),
                               child: Center(
                                 child: CircularProgressIndicator(
-                                  color: AppTheme.primaryBlue,
+                                  color:
+                                      isDark
+                                          ? AppTheme.primaryGreen
+                                          : AppTheme.primaryBlue,
                                 ),
                               ),
                             );
@@ -366,8 +384,11 @@ class RecipeListScreenState extends State<RecipeListScreen> {
                   ],
                 );
               }
+              final isDark = Theme.of(context).brightness == Brightness.dark;
               return Center(
-                child: CircularProgressIndicator(color: AppTheme.primaryBlue),
+                child: CircularProgressIndicator(
+                  color: isDark ? AppTheme.primaryGreen : AppTheme.primaryBlue,
+                ),
               );
             },
           ),
@@ -392,17 +413,20 @@ class RecipeListScreenState extends State<RecipeListScreen> {
           height: 56,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            gradient: AppTheme.activeGradient,
+            gradient: AppTheme.activeGradient(context),
             boxShadow: [
               BoxShadow(
-                color: AppTheme.primaryBlue.withAlpha((0.3 * 255).round()),
+                color: (Theme.of(context).brightness == Brightness.dark
+                        ? AppTheme.primaryGreen
+                        : AppTheme.primaryBlue)
+                    .withAlpha((0.3 * 255).round()),
                 spreadRadius: 2,
                 blurRadius: 8,
                 offset: const Offset(0, 4),
               ),
             ],
           ),
-          child: Icon(Icons.add, color: Colors.white, size: 28),
+          child: const Icon(Icons.add, color: Colors.white, size: 28),
         ),
       ),
     );

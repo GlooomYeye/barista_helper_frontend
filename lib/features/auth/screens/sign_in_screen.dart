@@ -31,13 +31,13 @@ class _SignInScreenState extends State<SignInScreen> {
 
     if (_emailController.text.isEmpty || !_emailController.text.contains('@')) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
           content: Text(
             'Введите корректный email',
-            style: const TextStyle(color: Colors.white),
+            style: TextStyle(color: Colors.white),
           ),
           backgroundColor: AppTheme.errorRed,
-          duration: const Duration(seconds: 2),
+          duration: Duration(seconds: 2),
         ),
       );
       return;
@@ -46,13 +46,13 @@ class _SignInScreenState extends State<SignInScreen> {
     if (_passwordController.text.isEmpty ||
         _passwordController.text.length < 6) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
           content: Text(
             'Пароль должен быть не менее 6 символов',
-            style: const TextStyle(color: Colors.white),
+            style: TextStyle(color: Colors.white),
           ),
           backgroundColor: AppTheme.errorRed,
-          duration: const Duration(seconds: 2),
+          duration: Duration(seconds: 2),
         ),
       );
       return;
@@ -72,7 +72,7 @@ class _SignInScreenState extends State<SignInScreen> {
     required BuildContext context,
   }) {
     return Container(
-      decoration: AppTheme.gradientButtonDecoration(),
+      decoration: AppTheme.gradientButtonDecoration(context),
       child: ElevatedButton(
         onPressed: _isLoading ? null : onPressed,
         style: ElevatedButton.styleFrom(
@@ -83,7 +83,7 @@ class _SignInScreenState extends State<SignInScreen> {
         ),
         child:
             _isLoading
-                ? SizedBox(
+                ? const SizedBox(
                   width: 20,
                   height: 20,
                   child: CircularProgressIndicator(
@@ -219,7 +219,7 @@ class _SignInScreenState extends State<SignInScreen> {
             child: Container(
               width: 80,
               height: 80,
-              decoration: AppTheme.iconDecoration(),
+              decoration: AppTheme.iconDecoration(context),
               child: Icon(
                 Icons.person,
                 size: 40,

@@ -58,22 +58,21 @@ class _AccountSettingsState extends State<AccountSettingsScreen> {
             );
         }
         if (state is ProfileUpdateSuccess) {
+          context.read<AuthBloc>().add(
+            UpdateUserEvent(
+              username: _nameController.text,
+              email: _emailController.text,
+            ),
+          );
+
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text(
+              content: const Text(
                 'Профиль успешно обновлен',
-                style: const TextStyle(color: Colors.white),
+                style: TextStyle(color: Colors.white),
               ),
               backgroundColor: AppTheme.primaryGreen,
               duration: const Duration(seconds: 2),
-              onVisible: () {
-                context.read<AuthBloc>().add(
-                  UpdateUserEvent(
-                    username: _nameController.text,
-                    email: _emailController.text,
-                  ),
-                );
-              },
             ),
           );
         }
@@ -107,7 +106,7 @@ class _AccountSettingsState extends State<AccountSettingsScreen> {
                 width: 80,
                 height: 80,
                 decoration: BoxDecoration(
-                  gradient: AppTheme.activeGradient,
+                  gradient: AppTheme.activeGradient(context),
                   shape: BoxShape.rectangle,
                   borderRadius: BorderRadius.circular(20),
                 ),
@@ -156,7 +155,7 @@ class _AccountSettingsState extends State<AccountSettingsScreen> {
                         builder: (context, state) {
                           return Container(
                             decoration: BoxDecoration(
-                              gradient: AppTheme.activeGradient,
+                              gradient: AppTheme.activeGradient(context),
                               borderRadius: BorderRadius.circular(8),
                             ),
                             child: ElevatedButton(

@@ -52,8 +52,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
         },
         builder: (context, state) {
           if (state is ProfileLoading) {
+            final isDark = Theme.of(context).brightness == Brightness.dark;
             return Center(
-              child: CircularProgressIndicator(color: AppTheme.primaryBlue),
+              child: CircularProgressIndicator(
+                color: isDark ? AppTheme.primaryGreen : AppTheme.primaryBlue,
+              ),
             );
           }
 
@@ -82,7 +85,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         width: 80,
                         height: 80,
                         decoration: BoxDecoration(
-                          gradient: AppTheme.activeGradient,
+                          gradient: AppTheme.activeGradient(context),
                           shape: BoxShape.rectangle,
                           borderRadius: BorderRadius.circular(20),
                         ),
@@ -161,8 +164,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
             );
           }
 
+          final isDark = Theme.of(context).brightness == Brightness.dark;
           return Center(
-            child: CircularProgressIndicator(color: AppTheme.primaryBlue),
+            child: CircularProgressIndicator(
+              color: isDark ? AppTheme.primaryGreen : AppTheme.primaryBlue,
+            ),
           );
         },
       ),
@@ -206,7 +212,7 @@ class _ProfileTile extends StatelessWidget {
               width: 40,
               height: 40,
               decoration: BoxDecoration(
-                gradient: AppTheme.activeGradient,
+                gradient: AppTheme.activeGradient(context),
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Icon(icon, color: Colors.white, size: 20),
@@ -276,7 +282,7 @@ class _LogoutTile extends StatelessWidget {
                 color: AppTheme.errorRed.withAlpha((0.2 * 255).round()),
                 borderRadius: BorderRadius.circular(8),
               ),
-              child: Icon(
+              child: const Icon(
                 Icons.exit_to_app,
                 color: AppTheme.errorRed,
                 size: 20,
@@ -348,7 +354,7 @@ class _LogoutTile extends StatelessWidget {
                       Expanded(
                         child: Container(
                           decoration: BoxDecoration(
-                            gradient: AppTheme.activeGradient,
+                            gradient: AppTheme.activeGradient(context),
                             borderRadius: BorderRadius.circular(8),
                           ),
                           child: ElevatedButton(

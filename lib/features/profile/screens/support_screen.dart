@@ -53,7 +53,7 @@ class HelpScreen extends StatelessWidget {
                         width: 50,
                         height: 50,
                         decoration: BoxDecoration(
-                          gradient: AppTheme.activeGradient,
+                          gradient: AppTheme.activeGradient(context),
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: const Icon(
@@ -86,7 +86,7 @@ class HelpScreen extends StatelessWidget {
                     width: double.infinity,
                     child: Container(
                       decoration: BoxDecoration(
-                        gradient: AppTheme.activeGradient,
+                        gradient: AppTheme.activeGradient(context),
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: ElevatedButton(
@@ -174,7 +174,7 @@ class _HelpTile extends StatelessWidget {
               width: 40,
               height: 40,
               decoration: BoxDecoration(
-                gradient: AppTheme.activeGradient,
+                gradient: AppTheme.activeGradient(context),
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Icon(icon, color: Colors.white, size: 20),

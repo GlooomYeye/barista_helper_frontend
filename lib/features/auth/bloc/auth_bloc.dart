@@ -69,7 +69,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     if (state is! Authenticated) return;
 
     try {
-      // Получаем текущего пользователя для его ID
       final currentUser = (state as Authenticated).user;
       final user = await userRepository.updateUserInfo(
         currentUser.id,
@@ -78,7 +77,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       );
       emit(Authenticated(user: user));
     } catch (e) {
-      // Сохраняем текущее состояние аутентификации в случае ошибки
       if (state is Authenticated) {
         emit(state);
       }

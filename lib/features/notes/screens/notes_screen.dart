@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 
 class NotesScreen extends StatefulWidget {
-  const NotesScreen({super.key});
+  const NotesScreen({super.key}) : super();
 
   @override
   State<NotesScreen> createState() => _NotesScreenState();
@@ -36,8 +36,11 @@ class _NotesScreenState extends State<NotesScreen> {
         bloc: _notesScreenBloc,
         builder: (context, state) {
           if (state is NotesLoadingState) {
+            final isDark = Theme.of(context).brightness == Brightness.dark;
             return Center(
-              child: CircularProgressIndicator(color: AppTheme.primaryBlue),
+              child: CircularProgressIndicator(
+                color: isDark ? AppTheme.primaryGreen : AppTheme.primaryBlue,
+              ),
             );
           }
           if (state is NotesLoadedState) {
@@ -65,7 +68,10 @@ class _NotesScreenState extends State<NotesScreen> {
                     child: Text(
                       'Повторить',
                       style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                        color: AppTheme.primaryBlue,
+                        color:
+                            Theme.of(context).brightness == Brightness.dark
+                                ? AppTheme.primaryGreen
+                                : AppTheme.primaryBlue,
                       ),
                     ),
                   ),
@@ -111,8 +117,8 @@ class _NotesScreenState extends State<NotesScreen> {
             Container(
               width: 40,
               height: 40,
-              decoration: AppTheme.iconDecoration(),
-              child: Icon(Icons.notes, color: Colors.white, size: 20),
+              decoration: AppTheme.iconDecoration(context),
+              child: const Icon(Icons.notes, color: Colors.white, size: 20),
             ),
             const SizedBox(width: 16),
             Expanded(

@@ -45,10 +45,10 @@ class _PrivacyScreenState extends State<PrivacyScreen> {
               ScaffoldMessenger.of(context)
                 ..hideCurrentSnackBar()
                 ..showSnackBar(
-                  SnackBar(
+                  const SnackBar(
                     content: Text(
                       'Пароль успешно обновлен',
-                      style: const TextStyle(color: Colors.white),
+                      style: TextStyle(color: Colors.white),
                     ),
                     backgroundColor: AppTheme.primaryGreen,
                   ),
@@ -59,10 +59,10 @@ class _PrivacyScreenState extends State<PrivacyScreen> {
               ScaffoldMessenger.of(context)
                 ..hideCurrentSnackBar()
                 ..showSnackBar(
-                  SnackBar(
+                  const SnackBar(
                     content: Text(
                       'Аккаунт успешно удален',
-                      style: const TextStyle(color: Colors.white),
+                      style: TextStyle(color: Colors.white),
                     ),
                     backgroundColor: AppTheme.primaryGreen,
                   ),
@@ -118,13 +118,13 @@ class _PrivacyScreenState extends State<PrivacyScreen> {
       ScaffoldMessenger.of(context)
         ..hideCurrentSnackBar()
         ..showSnackBar(
-          SnackBar(
+          const SnackBar(
             content: Text(
               'Пароли не совпадают',
-              style: const TextStyle(color: Colors.white),
+              style: TextStyle(color: Colors.white),
             ),
             backgroundColor: AppTheme.errorRed,
-            duration: const Duration(seconds: 2),
+            duration: Duration(seconds: 2),
           ),
         );
       return;
@@ -260,7 +260,7 @@ class _PasswordChangeForm extends StatelessWidget {
             width: double.infinity,
             child: Container(
               decoration: BoxDecoration(
-                gradient: AppTheme.activeGradient,
+                gradient: AppTheme.activeGradient(context),
                 borderRadius: BorderRadius.circular(8),
               ),
               child: ElevatedButton(
@@ -345,7 +345,7 @@ class _DeleteAccountSection extends StatelessWidget {
               onPressed: onDeletePressed,
               style: OutlinedButton.styleFrom(
                 padding: const EdgeInsets.symmetric(vertical: 16),
-                side: BorderSide(color: AppTheme.errorRed),
+                side: const BorderSide(color: AppTheme.errorRed),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8),
                 ),

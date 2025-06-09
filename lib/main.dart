@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:barista_helper/core/navigation/navigation_screen.dart';
 import 'package:barista_helper/core/theme/app_theme.dart';
 import 'package:barista_helper/core/theme/bloc/theme_bloc.dart';
@@ -24,7 +25,6 @@ void main() async {
 
   final prefs = await SharedPreferences.getInstance();
 
-  // Register dependencies
   GetIt.I.registerLazySingleton(
     () => Dio(
       BaseOptions(
@@ -35,14 +35,13 @@ void main() async {
     ),
   );
   GetIt.I.registerLazySingleton(
-    () => AuthRepository(secureStorage: FlutterSecureStorage()),
+    () => AuthRepository(secureStorage: const FlutterSecureStorage()),
   );
   GetIt.I.registerLazySingleton(() => UserRepository());
   GetIt.I.registerLazySingleton(() => RecipeRepository());
   GetIt.I.registerLazySingleton(() => TermRepository());
   GetIt.I.registerLazySingleton(() => NoteRepository());
 
-  // Register blocs
   GetIt.I.registerSingleton<AuthBloc>(
     AuthBloc(GetIt.I<AuthRepository>(), GetIt.I<UserRepository>()),
   );
@@ -58,39 +57,100 @@ void main() async {
     CreateRecipeBloc(GetIt.I<UserRepository>()),
   );
 
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
-  MyApp({super.key}) {
-    _authBloc.add(CheckAuthEvent());
-    _themeBloc.add(LoadThemeEvent());
+class MyApp extends StatefulWidget {
+  @override
+  const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
+  DateTime? _lastPressedAt;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+    GetIt.I<AuthBloc>().add(CheckAuthEvent());
+    GetIt.I<ThemeBloc>().add(LoadThemeEvent());
   }
 
-  final AuthBloc _authBloc = GetIt.I<AuthBloc>();
-  final ProfileBloc _profileBloc = GetIt.I<ProfileBloc>();
-  final RecipeDetailsBloc _recipeDetailsBloc = GetIt.I<RecipeDetailsBloc>();
-  final ThemeBloc _themeBloc = GetIt.I<ThemeBloc>();
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      runApp(const MyApp());
+    }
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  void _handlePop(bool didPop, dynamic result) {
+    if (didPop) return;
+
+    final now = DateTime.now();
+    const duration = Duration(seconds: 2);
+
+    if (_lastPressedAt == null || now.difference(_lastPressedAt!) > duration) {
+      _lastPressedAt = now;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Нажмите ещё раз для выхода'),
+          duration: Duration(seconds: 2),
+        ),
+      );
+    } else {
+      SystemNavigator.pop();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider.value(value: _authBloc),
-        BlocProvider.value(value: _profileBloc),
-        BlocProvider.value(value: _recipeDetailsBloc),
-        BlocProvider.value(value: _themeBloc),
+        BlocProvider.value(value: GetIt.I<AuthBloc>()),
+        BlocProvider.value(value: GetIt.I<ProfileBloc>()),
+        BlocProvider.value(value: GetIt.I<RecipeDetailsBloc>()),
+        BlocProvider.value(value: GetIt.I<ThemeBloc>()),
       ],
       child: BlocBuilder<ThemeBloc, ThemeState>(
         builder: (context, state) {
           final themeMode =
               state is ThemeChanged ? state.themeMode : ThemeMode.system;
-          return MaterialApp(
-            title: 'Barista Helper',
-            theme: AppTheme.lightTheme,
-            darkTheme: AppTheme.darkTheme,
-            themeMode: themeMode,
-            home: MainNavigationScreen(),
+          final isDarkMode =
+              themeMode == ThemeMode.dark ||
+              (themeMode == ThemeMode.system &&
+                  WidgetsBinding
+                          .instance
+                          .platformDispatcher
+                          .platformBrightness ==
+                      Brightness.dark);
+
+          SystemChrome.setSystemUIOverlayStyle(
+            SystemUiOverlayStyle(
+              systemNavigationBarColor:
+                  isDarkMode ? Colors.black : Colors.white,
+              systemNavigationBarIconBrightness:
+                  isDarkMode ? Brightness.light : Brightness.dark,
+            ),
+          );
+          return PopScope(
+            canPop: false,
+            onPopInvokedWithResult: _handlePop,
+            child: MaterialApp(
+              title: 'Barista Helper',
+              theme: AppTheme.lightTheme,
+              darkTheme: AppTheme.darkTheme,
+              themeMode: themeMode,
+              home: const MainNavigationScreen(),
+            ),
           );
         },
       ),

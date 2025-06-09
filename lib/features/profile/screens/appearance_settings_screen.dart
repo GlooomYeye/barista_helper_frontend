@@ -56,10 +56,13 @@ class _AppearanceScreenState extends State<AppearanceScreen> {
                             value ? ThemeMode.dark : ThemeMode.light,
                           ),
                       activeColor:
-                          AppTheme.primaryBlue, // Основной цвет в обоих темах
-                      activeTrackColor: AppTheme.primaryBlue.withAlpha(
-                        (0.5 * 255).round(),
-                      ),
+                          isDarkMode
+                              ? AppTheme.primaryGreen
+                              : AppTheme.primaryBlue,
+                      activeTrackColor: (isDarkMode
+                              ? AppTheme.primaryGreen
+                              : AppTheme.primaryBlue)
+                          .withAlpha((0.5 * 255).round()),
                       inactiveThumbColor: Colors.grey[400],
                       inactiveTrackColor: Colors.white,
                       materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,

@@ -70,7 +70,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     Emitter<ProfileState> emit,
   ) async {
     if (state is! ProfileLoaded) {
-      emit(ProfileError('Cannot delete profile: profile not loaded'));
+      emit(const ProfileError('Cannot delete profile: profile not loaded'));
       return;
     }
 

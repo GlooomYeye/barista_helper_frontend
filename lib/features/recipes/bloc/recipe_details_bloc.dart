@@ -26,7 +26,7 @@ class RecipeDetailsBloc extends Bloc<RecipeDetailsEvent, RecipeDetailsState> {
       final recipe = await recipeRepository.getRecipeDetails(event.recipeId);
       emit(RecipeDetailsLoaded(recipe));
     } catch (e) {
-      emit(RecipeDetailsError('Не удалось загрузить рецепт'));
+      emit(const RecipeDetailsError('Не удалось загрузить рецепт'));
     }
   }
 
@@ -52,7 +52,7 @@ class RecipeDetailsBloc extends Bloc<RecipeDetailsEvent, RecipeDetailsState> {
         }
         emit(RecipeDetailsLoaded(updatedRecipe));
       } catch (e) {
-        emit(RecipeDetailsError('Не удалось изменить оценку рецепта'));
+        emit(const RecipeDetailsError('Не удалось изменить оценку рецепта'));
       }
     }
   }

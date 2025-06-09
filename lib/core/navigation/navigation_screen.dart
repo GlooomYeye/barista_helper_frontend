@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:barista_helper/domain/models/brewing_method.dart';
 import 'package:barista_helper/domain/models/recipe_details.dart';
 import 'package:barista_helper/features/auth/bloc/auth_bloc.dart';
+import 'package:barista_helper/features/notes/bloc/notes_bloc.dart';
+import 'package:get_it/get_it.dart';
 import 'package:barista_helper/features/auth/screens/sign_in_screen.dart';
 import 'package:barista_helper/features/auth/screens/sign_up_screen.dart';
 
@@ -28,10 +30,11 @@ class MainNavigationScreen extends StatefulWidget {
   const MainNavigationScreen({super.key});
 
   @override
-  MainNavigationScreenState createState() => MainNavigationScreenState();
+  State<MainNavigationScreen> createState() => _MainNavigationScreenState();
 }
 
-class MainNavigationScreenState extends State<MainNavigationScreen> {
+class _MainNavigationScreenState extends State<MainNavigationScreen>
+    with WidgetsBindingObserver {
   int _currentIndex = 0;
 
   final List<GlobalKey<NavigatorState>> _navigatorKeys = [
@@ -41,11 +44,35 @@ class MainNavigationScreenState extends State<MainNavigationScreen> {
     GlobalKey<NavigatorState>(),
   ];
 
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      setState(() {});
+    }
+  }
+
   void _onTabTapped(int index) {
     if (_currentIndex == index) {
       _resetTabToRoot(index);
+      if (index == 1) {
+        GetIt.I<NotesBloc>().add(LoadNotesEvent());
+      }
     } else {
-      setState(() => _currentIndex = index);
+      setState(() {
+        _currentIndex = index;
+      });
     }
   }
 
@@ -103,45 +130,45 @@ class MainNavigationScreenState extends State<MainNavigationScreen> {
                   totalTime: args['totalTime'] as String,
                 );
               } else {
-                page = MethodsScreen();
+                page = const MethodsScreen();
               }
               break;
 
             case 1:
               if (settings.name == '/noteDetails') {
-                page = NoteDetailsScreen();
+                page = const NoteDetailsScreen();
               } else {
-                page = NotesScreen();
+                page = const NotesScreen();
               }
               break;
 
             case 2:
-              page = DictionaryScreen();
+              page = const DictionaryScreen();
               break;
 
             case 3:
               if (settings.name == '/signup') {
-                page = SignUpScreen();
+                page = const SignUpScreen();
               } else if (settings.name == '/accountSettings') {
-                page = AccountSettingsScreen();
+                page = const AccountSettingsScreen();
               } else if (settings.name == '/appearance') {
-                page = AppearanceScreen();
+                page = const AppearanceScreen();
               } else if (settings.name == '/privacy') {
-                page = PrivacyScreen();
+                page = const PrivacyScreen();
               } else if (settings.name == '/help') {
-                page = HelpScreen();
+                page = const HelpScreen();
               } else if (settings.name == '/signin') {
-                page = SignInScreen();
+                page = const SignInScreen();
               } else if (settings.name == '/profile') {
                 page =
                     authState is Authenticated
-                        ? ProfileScreen()
-                        : SignInScreen();
+                        ? const ProfileScreen()
+                        : const SignInScreen();
               } else {
                 page =
                     authState is Authenticated
-                        ? ProfileScreen()
-                        : SignInScreen();
+                        ? const ProfileScreen()
+                        : const SignInScreen();
               }
               break;
 

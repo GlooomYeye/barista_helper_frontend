@@ -106,7 +106,12 @@ class _InteractiveBrewScreenState extends State<InteractiveBrewScreen> {
           _buildControlButtons(context, isDark),
           _buildProgressBar(context),
           _buildCurrentStepCard(context, currentStep, isDark),
-          _buildNextStepsSection(context, nextSteps, isDark),
+          Expanded(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.only(bottom: 16),
+              child: _buildNextStepsSection(context, nextSteps, isDark),
+            ),
+          ),
         ],
       ),
     );
@@ -142,7 +147,7 @@ class _InteractiveBrewScreenState extends State<InteractiveBrewScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            decoration: AppTheme.gradientButtonDecoration(),
+            decoration: AppTheme.gradientButtonDecoration(context),
             child: ElevatedButton(
               onPressed: _toggleBrewing,
               style: ElevatedButton.styleFrom(
@@ -209,12 +214,15 @@ class _InteractiveBrewScreenState extends State<InteractiveBrewScreen> {
   }
 
   Widget _buildProgressBar(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 16),
       child: LinearProgressIndicator(
         value: totalBrewTime > 0 ? elapsedTime / totalBrewTime : 0,
         backgroundColor: Theme.of(context).dividerColor,
-        valueColor: AlwaysStoppedAnimation<Color>(AppTheme.primaryBlue),
+        valueColor: AlwaysStoppedAnimation<Color>(
+          isDark ? AppTheme.primaryGreen : AppTheme.primaryBlue,
+        ),
         minHeight: 4,
       ),
     );
@@ -229,12 +237,8 @@ class _InteractiveBrewScreenState extends State<InteractiveBrewScreen> {
       margin: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color:
-            isDark
-                ? Colors.grey[800]
-                : Colors.white, // Более светлый серый фон для светлой темы
+        color: isDark ? Colors.grey[800] : Colors.white,
         borderRadius: BorderRadius.circular(12),
-        // Убрана обводка
       ),
       child: Row(
         children: [
@@ -242,16 +246,13 @@ class _InteractiveBrewScreenState extends State<InteractiveBrewScreen> {
             width: 40,
             height: 40,
             decoration: BoxDecoration(
-              color:
-                  isDark
-                      ? Colors.grey[850]
-                      : Colors.grey[300], // Обновленный фон иконки
+              color: isDark ? Colors.grey[850] : Colors.grey[300],
               borderRadius: BorderRadius.circular(8),
             ),
             child: SvgPicture.asset(
               step.type.iconPath,
               colorFilter: ColorFilter.mode(
-                isDark ? Colors.white : Colors.black, // Обновленный цвет иконки
+                isDark ? Colors.white : Colors.black,
                 BlendMode.srcIn,
               ),
             ),
@@ -289,31 +290,24 @@ class _InteractiveBrewScreenState extends State<InteractiveBrewScreen> {
     List<BrewingStep> nextSteps,
     bool isDark,
   ) {
-    return Expanded(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
-            child: Text(
-              'Следующие шаги',
-              style: Theme.of(
-                context,
-              ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
-            ),
+    if (nextSteps.isEmpty) {
+      return const SizedBox.shrink();
+    }
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+          child: Text(
+            'Следующие шаги',
+            style: Theme.of(
+              context,
+            ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
           ),
-          Expanded(
-            child: ListView.builder(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
-              itemCount: nextSteps.length,
-              itemBuilder: (context, index) {
-                final step = nextSteps[index];
-                return _buildNextStepItem(context, step, isDark);
-              },
-            ),
-          ),
-        ],
-      ),
+        ),
+        ...nextSteps.map((step) => _buildNextStepItem(context, step, isDark)),
+      ],
     );
   }
 
@@ -323,23 +317,20 @@ class _InteractiveBrewScreenState extends State<InteractiveBrewScreen> {
     bool isDark,
   ) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 8),
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       decoration: AppTheme.cardDecoration(color: Theme.of(context).cardColor),
       child: ListTile(
         leading: Container(
           width: 40,
           height: 40,
           decoration: BoxDecoration(
-            color:
-                isDark
-                    ? Colors.grey[800]
-                    : Colors.grey[300], // Обновленный фон иконки
+            color: isDark ? Colors.grey[800] : Colors.grey[300],
             borderRadius: BorderRadius.circular(8),
           ),
           child: SvgPicture.asset(
             step.type.iconPath,
             colorFilter: ColorFilter.mode(
-              isDark ? Colors.white : Colors.black, // Обновленный цвет иконки
+              isDark ? Colors.white : Colors.black,
               BlendMode.srcIn,
             ),
           ),
@@ -354,7 +345,7 @@ class _InteractiveBrewScreenState extends State<InteractiveBrewScreen> {
         trailing: Text(
           _formatTime(step.duration),
           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-            color: isDark ? Colors.white : AppTheme.primaryBlue,
+            color: isDark ? AppTheme.primaryGreen : AppTheme.primaryBlue,
             fontWeight: FontWeight.bold,
           ),
         ),

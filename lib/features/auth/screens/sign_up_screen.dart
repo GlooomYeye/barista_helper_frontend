@@ -34,13 +34,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
     final authScreenBloc = context.read<AuthBloc>();
     if (_nameController.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
           content: Text(
             'Введите ваше имя',
-            style: const TextStyle(color: Colors.white),
+            style: TextStyle(color: Colors.white),
           ),
           backgroundColor: AppTheme.errorRed,
-          duration: const Duration(seconds: 2),
+          duration: Duration(seconds: 2),
         ),
       );
       return;
@@ -48,13 +48,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
     if (_emailController.text.isEmpty || !_emailController.text.contains('@')) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
           content: Text(
             'Введите корректный email',
-            style: const TextStyle(color: Colors.white),
+            style: TextStyle(color: Colors.white),
           ),
           backgroundColor: AppTheme.errorRed,
-          duration: const Duration(seconds: 2),
+          duration: Duration(seconds: 2),
         ),
       );
       return;
@@ -63,13 +63,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
     if (_passwordController.text.isEmpty ||
         _passwordController.text.length < 6) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
           content: Text(
             'Пароль должен быть не менее 6 символов',
-            style: const TextStyle(color: Colors.white),
+            style: TextStyle(color: Colors.white),
           ),
           backgroundColor: AppTheme.errorRed,
-          duration: const Duration(seconds: 2),
+          duration: Duration(seconds: 2),
         ),
       );
       return;
@@ -77,13 +77,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
     if (_passwordController.text != _confirmPasswordController.text) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
           content: Text(
             'Пароли не совпадают',
-            style: const TextStyle(color: Colors.white),
+            style: TextStyle(color: Colors.white),
           ),
           backgroundColor: AppTheme.errorRed,
-          duration: const Duration(seconds: 2),
+          duration: Duration(seconds: 2),
         ),
       );
       return;
@@ -106,7 +106,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     required BuildContext context,
   }) {
     return Container(
-      decoration: AppTheme.gradientButtonDecoration(),
+      decoration: AppTheme.gradientButtonDecoration(context),
       child: ElevatedButton(
         onPressed: _isLoading ? null : onPressed,
         style: ElevatedButton.styleFrom(
@@ -117,7 +117,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         ),
         child:
             _isLoading
-                ? SizedBox(
+                ? const SizedBox(
                   width: 20,
                   height: 20,
                   child: CircularProgressIndicator(

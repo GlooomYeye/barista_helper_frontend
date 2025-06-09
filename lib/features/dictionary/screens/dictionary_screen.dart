@@ -88,9 +88,10 @@ class _DictionaryScreenState extends State<DictionaryScreen> {
         bloc: _dictionaryScreenBloc,
         builder: (context, state) {
           if (state is DictionaryLoadingState) {
+            final isDark = Theme.of(context).brightness == Brightness.dark;
             return Center(
               child: CircularProgressIndicator(
-                color: Theme.of(context).colorScheme.primary,
+                color: isDark ? AppTheme.primaryGreen : AppTheme.primaryBlue,
               ),
             );
           }
@@ -118,7 +119,10 @@ class _DictionaryScreenState extends State<DictionaryScreen> {
                     child: Text(
                       'Повторить',
                       style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                        color: AppTheme.primaryBlue,
+                        color:
+                            Theme.of(context).brightness == Brightness.dark
+                                ? AppTheme.primaryGreen
+                                : AppTheme.primaryBlue,
                       ),
                     ),
                   ),
@@ -156,7 +160,7 @@ class _TermTile extends StatelessWidget {
             Container(
               width: 40,
               height: 40,
-              decoration: AppTheme.iconDecoration(),
+              decoration: AppTheme.iconDecoration(context),
               child: Center(
                 child: Text(
                   term.word[0].toUpperCase(),

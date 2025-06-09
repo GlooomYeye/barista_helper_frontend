@@ -94,7 +94,7 @@ class _NavItem extends StatelessWidget {
             decoration:
                 isActive
                     ? BoxDecoration(
-                      gradient: AppTheme.activeGradient,
+                      gradient: AppTheme.activeGradient(context),
                       shape: BoxShape.circle,
                     )
                     : null,

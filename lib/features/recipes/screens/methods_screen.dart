@@ -37,7 +37,7 @@ class MethodsScreenState extends State<MethodsScreen> {
   Widget _buildGrid(List<BrewingMethod> methods) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        final crossAxisCount = 2;
+        const crossAxisCount = 2;
         final isLastItemCentered = methods.length % crossAxisCount == 1;
         final cardWidth = (constraints.maxWidth - 48) / 2;
 

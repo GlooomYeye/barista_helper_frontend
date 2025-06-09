@@ -139,6 +139,14 @@ class UserRepository {
     try {
       final response = await request();
 
+      if (response.data is Map && response.data['tokens'] != null) {
+        final newRefreshToken = response.data['tokens']['refreshToken'];
+        await authRepository.refreshToken(newRefreshToken);
+
+        final userData = response.data['user'] ?? response.data;
+        return mapper(userData);
+      }
+
       return mapper(response.data);
     } on DioException catch (e) {
       final statusCode = e.response?.statusCode;

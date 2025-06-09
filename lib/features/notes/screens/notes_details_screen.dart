@@ -43,8 +43,11 @@ class NoteDetailsScreen extends StatelessWidget {
         bloc: noteBloc,
         builder: (context, state) {
           if (state is NotesLoadingState) {
+            final isDark = Theme.of(context).brightness == Brightness.dark;
             return Center(
-              child: CircularProgressIndicator(color: AppTheme.primaryBlue),
+              child: CircularProgressIndicator(
+                color: isDark ? AppTheme.primaryGreen : AppTheme.primaryBlue,
+              ),
             );
           }
           if (state is NoteOpenedState) {
